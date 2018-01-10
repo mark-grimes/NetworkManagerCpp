@@ -1,0 +1,4 @@
+#include "libnmtests/testinputs.h"
+
+const std::string libnmtests::testinputs::testFileDirectory="@CMAKE_SOURCE_DIR@/tests/testdata/";
+
