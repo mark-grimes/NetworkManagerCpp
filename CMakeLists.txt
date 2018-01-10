@@ -25,7 +25,14 @@ configure_file( "${CMAKE_SOURCE_DIR}/src/version.cpp.in" "${CMAKE_BINARY_DIR}/sr
 include_directories( "${CMAKE_SOURCE_DIR}/include" )
 aux_source_directory( "${CMAKE_SOURCE_DIR}/src" library_sources )
 
+# Project dependencies
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LibNM REQUIRED libnm)
+
 add_library( ${PROJECT_NAME} STATIC ${library_sources} "${CMAKE_BINARY_DIR}/src/version.cpp" )
+target_link_libraries( ${PROJECT_NAME} ${LibNM_LIBRARIES})
+target_include_directories( ${PROJECT_NAME} PUBLIC ${LibNM_INCLUDE_DIRS})
+target_compile_options( ${PROJECT_NAME} PUBLIC ${LibNM_CFLAGS_OTHER})
 
 install( TARGETS ${PROJECT_NAME} DESTINATION lib )
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/include/" DESTINATION include )
