@@ -1,6 +1,8 @@
 # NetworkManagerCpp
 
-C++ bindings on top of the C libnm library to control NetworkManager.
+C++ bindings on top of the C libnm library to control [NetworkManager](https://developer.gnome.org/NetworkManager/stable/NetworkManager.html).
+
+Very much in alpha. I'm mostly playing around to see if it's worth sticking with NetworkManager for my devices.
 
 ## Licence
 
