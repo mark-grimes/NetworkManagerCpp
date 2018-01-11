@@ -20,7 +20,7 @@ namespace libnm
 	 * @author Mark Grimes (mark.grimes@rymapt.com)
 	 * @date 10/Jan/2018
 	 */
-	 class RemoteConnection : public libnm::Connection
+	class RemoteConnection : public libnm::Connection
  	{
  		friend class libnm::Client;
  	public:
