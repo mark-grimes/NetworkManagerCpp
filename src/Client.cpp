@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <NetworkManager.h>
 #include "libnm/RemoteConnection.h"
+#include "libnm/Device.h"
 
 libnm::Client::Client()
 {
@@ -33,6 +34,19 @@ std::vector<libnm::RemoteConnection> libnm::Client::getConnections() const
 	for( size_t index=0; index<pRemoteConnections->len; ++index )
 	{
 		returnValue.push_back( libnm::RemoteConnection( reinterpret_cast<NMRemoteConnection*>(pRemoteConnections->pdata[index]) ) );
+	}
+
+	return returnValue;
+}
+
+std::vector<libnm::Device> libnm::Client::getDevices() const
+{
+	std::vector<libnm::Device> returnValue;
+
+	const GPtrArray *pDevices = nm_client_get_devices(pClient_);
+	for( size_t index=0; index<pDevices->len; ++index )
+	{
+		returnValue.push_back( libnm::Device( static_cast<NMDevice*>( g_ptr_array_index( pDevices, index ) ) ) );
 	}
 
 	return returnValue;

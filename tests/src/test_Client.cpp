@@ -1,6 +1,7 @@
 #include "libnm/Client.h"
 #include "libnm/RemoteConnection.h"
 #include "libnmtests/RemoteConnectionTests.h"
+#include "libnm/Device.h"
 #include <memory>
 #include "catch.hpp"
 
@@ -27,5 +28,12 @@ SCENARIO( "Test that the libnm::Client class performs as expected", "[Client]" )
 		{
 			libnmtests::test_RemoteConnection( connection );
 		}
+	}
+	WHEN( "Test Client::getDevices() method" )
+	{
+		libnm::Client client;
+		std::vector<libnm::Device> devices;
+		REQUIRE_NOTHROW( devices=client.getDevices() );
+		CHECK( devices.size() > 0 );
 	}
 } // end of 'SCENARIO ... libnm::Client'

@@ -10,6 +10,7 @@ typedef struct _NMClient NMClient;
 namespace libnm
 {
 	class RemoteConnection;
+	class Device;
 }
 
 namespace libnm
@@ -26,6 +27,7 @@ namespace libnm
  		~Client();
  		const char* getVersion() const;
  		std::vector<libnm::RemoteConnection> getConnections() const;
+		std::vector<libnm::Device> getDevices() const;
  	private:
  		NMClient* pClient_;
  	};
