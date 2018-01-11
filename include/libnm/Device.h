@@ -23,6 +23,8 @@ namespace libnm
 		friend class libnm::Client;
  	public:
  		~Device();
+		const char* getIface() const;
+		const char* getDriver() const;
  	protected:
  		Device( NMDevice* pDevice );
  		NMDevice* pDevice_;
