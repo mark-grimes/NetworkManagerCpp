@@ -1,5 +1,6 @@
 #include "libnm/Client.h"
 #include "libnm/RemoteConnection.h"
+#include "libnmtests/RemoteConnectionTests.h"
 #include <memory>
 #include "catch.hpp"
 
@@ -24,7 +25,7 @@ SCENARIO( "Test that the libnm::Client class performs as expected", "[Client]" )
 		CHECK( connections.size() > 0 );
 		for( const auto& connection : connections )
 		{
-			CHECK( connection.getId() != nullptr );
+			libnmtests::test_RemoteConnection( connection );
 		}
 	}
 } // end of 'SCENARIO ... libnm::Client'
