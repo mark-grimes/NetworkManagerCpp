@@ -17,7 +17,7 @@ SCENARIO( "Test that the libnm::Client class performs as expected", "[Client]" )
 		CHECK( version != nullptr );
 		// TODO check the version string is sensible
 	}
-	WHEN( "Test Client::" )
+	WHEN( "Test Client::getConnections() method" )
 	{
 		libnm::Client client;
 		std::vector<libnm::RemoteConnection> connections;
