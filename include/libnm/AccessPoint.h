@@ -1,6 +1,9 @@
 #ifndef INCLUDEGUARD_libnm_AccessPoint_h
 #define INCLUDEGUARD_libnm_AccessPoint_h
 
+#include <vector>
+#include <cstdint>
+#include <string>
 //
 // Forward declarations
 //
@@ -19,6 +22,10 @@ namespace libnm
 	public:
 		AccessPoint( NMAccessPoint* pAccessPoint );
 		virtual ~AccessPoint();
+
+		std::vector<uint8_t> getSSID() const;
+		std::string getSSIDString() const;
+		const char* getBSSID() const;
 	protected:
 		NMAccessPoint* pAccessPoint_;
 	};
