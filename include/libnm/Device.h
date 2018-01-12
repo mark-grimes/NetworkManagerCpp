@@ -22,7 +22,9 @@ namespace libnm
  	{
 		friend class libnm::Client;
  	public:
+		enum class DeviceType { UNKNOWN, MACSEC, OLPC, BRIDGE, ADSL, INFINIBAND, MACVLAN, TEAM, VXLAN, MODEM, VLAN, BT, WIMAX, IP, BOND, ETHERNET, TUN, GENERIC, WIFI };
  		~Device();
+		libnm::Device::DeviceType type() const;
 		const char* getIface() const;
 		const char* getDriver() const;
  	protected:
