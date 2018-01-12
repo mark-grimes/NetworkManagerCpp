@@ -2,6 +2,7 @@
 #include "libnm/RemoteConnection.h"
 #include "libnmtests/RemoteConnectionTests.h"
 #include "libnm/Device.h"
+#include "libnm/DeviceWifi.h"
 #include <memory>
 #include "catch.hpp"
 
@@ -35,5 +36,14 @@ SCENARIO( "Test that the libnm::Client class performs as expected", "[Client]" )
 		std::vector<libnm::Device> devices;
 		REQUIRE_NOTHROW( devices=client.getDevices() );
 		CHECK( devices.size() > 0 );
+		for( auto& device : devices )
+		{
+			std::unique_ptr<libnm::DeviceWifi> pDeviceWifi;
+			if( device.type() == libnm::Device::DeviceType::WIFI )
+			{
+				CHECK_NOTHROW( pDeviceWifi.reset( new libnm::DeviceWifi( device.asDeviceWifi() ) ) );
+			}
+			else CHECK_THROWS( pDeviceWifi.reset( new libnm::DeviceWifi( device.asDeviceWifi() ) ) );
+		}
 	}
 } // end of 'SCENARIO ... libnm::Client'
