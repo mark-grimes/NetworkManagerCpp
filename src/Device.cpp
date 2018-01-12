@@ -1,4 +1,6 @@
 #include "libnm/Device.h"
+#include <stdexcept>
+#include "libnm/DeviceWifi.h"
 #include <NetworkManager.h>
 
 libnm::Device::Device( NMDevice* pDevice )
@@ -35,6 +37,12 @@ libnm::Device::DeviceType libnm::Device::type() const
 	else if( NM_IS_DEVICE_GENERIC(pDevice_) ) return DeviceType::GENERIC;
 	else if( NM_IS_DEVICE_WIFI(pDevice_) ) return DeviceType::WIFI;
 	else return DeviceType::UNKNOWN;
+}
+
+libnm::DeviceWifi libnm::Device::asDeviceWifi()
+{
+	if( !NM_IS_DEVICE_WIFI(pDevice_) ) throw std::runtime_error("Device::asDeviceWifi called on a non-WIFI device");
+	else return libnm::DeviceWifi( reinterpret_cast<NMDeviceWifi*>(pDevice_) );
 }
 
 const char* libnm::Device::getIface() const

@@ -9,6 +9,7 @@ typedef struct _NMDevice NMDevice;
 namespace libnm
 {
 	class Client;
+	class DeviceWifi;
 }
 
 namespace libnm
@@ -23,8 +24,11 @@ namespace libnm
 		friend class libnm::Client;
 	public:
 		enum class DeviceType { UNKNOWN, MACSEC, OLPC, BRIDGE, ADSL, INFINIBAND, MACVLAN, TEAM, VXLAN, MODEM, VLAN, BT, WIMAX, IP, BOND, ETHERNET, TUN, GENERIC, WIFI };
-		~Device();
+		virtual ~Device();
+
 		libnm::Device::DeviceType type() const;
+		libnm::DeviceWifi asDeviceWifi();
+
 		const char* getIface() const;
 		const char* getDriver() const;
 	protected:
