@@ -21,13 +21,13 @@ namespace libnm
 	 * @date 10/Jan/2018
 	 */
 	class RemoteConnection : public libnm::Connection
- 	{
- 		friend class libnm::Client;
- 	public:
- 		~RemoteConnection();
- 	protected:
- 		RemoteConnection( NMRemoteConnection* pRemoteConnection );
- 	};
+	{
+		friend class libnm::Client;
+	public:
+		~RemoteConnection();
+	protected:
+		RemoteConnection( NMRemoteConnection* pRemoteConnection );
+	};
 
 } // end of namespace libnm
 

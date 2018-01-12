@@ -15,14 +15,14 @@ namespace libnm
 	 * @date 10/Jan/2018
 	 */
 	class Connection
- 	{
- 	public:
- 		virtual ~Connection();
- 		const char* getId() const;
- 	protected:
- 		Connection( NMConnection* pConnection );
- 		NMConnection* pConnection_;
- 	};
+	{
+	public:
+		virtual ~Connection();
+		const char* getId() const;
+	protected:
+		Connection( NMConnection* pConnection );
+		NMConnection* pConnection_;
+	};
 
 } // end of namespace libnm
 

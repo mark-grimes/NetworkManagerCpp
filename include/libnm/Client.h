@@ -21,16 +21,16 @@ namespace libnm
 	 * @date 10/Jan/2018
 	 */
 	class Client
- 	{
- 	public:
- 		Client();
- 		~Client();
- 		const char* getVersion() const;
- 		std::vector<libnm::RemoteConnection> getConnections() const;
+	{
+	public:
+		Client();
+		~Client();
+		const char* getVersion() const;
+		std::vector<libnm::RemoteConnection> getConnections() const;
 		std::vector<libnm::Device> getDevices() const;
- 	private:
- 		NMClient* pClient_;
- 	};
+	private:
+		NMClient* pClient_;
+	};
 
 } // end of namespace libnm
 
