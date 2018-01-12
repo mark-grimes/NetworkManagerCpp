@@ -1,6 +1,5 @@
 #include "libnm/AccessPoint.h"
 #include <NetworkManager.h>
-#include <cstring> // for std::memcpy
 
 libnm::AccessPoint::AccessPoint( NMAccessPoint* pAccessPoint )
 	: pAccessPoint_( pAccessPoint )
@@ -18,9 +17,9 @@ std::vector<uint8_t> libnm::AccessPoint::getSSID() const
 	GBytes* pSSIDBytes=nm_access_point_get_ssid( pAccessPoint_ );
 	if( pSSIDBytes==nullptr ) return std::vector<uint8_t>();
 
-	std::vector<uint8_t> returnValue( g_bytes_get_size(pSSIDBytes) );
-	std::memcpy( returnValue.data(), g_bytes_get_data(pSSIDBytes,nullptr), g_bytes_get_size(pSSIDBytes) );
-	return returnValue;
+	const uint8_t* pStart=reinterpret_cast<const uint8_t*>( g_bytes_get_data(pSSIDBytes,nullptr) );
+	const uint8_t* pEnd=pStart+g_bytes_get_size(pSSIDBytes);
+	return std::vector<uint8_t>( pStart, pEnd );
 }
 
 std::string libnm::AccessPoint::getSSIDString() const
