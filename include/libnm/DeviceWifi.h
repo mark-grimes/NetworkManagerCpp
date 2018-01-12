@@ -2,11 +2,16 @@
 #define INCLUDEGUARD_libnm_DeviceWifi_h
 
 #include "libnm/Device.h"
+#include <vector>
 //
 // Forward declarations
 //
 struct _NMDeviceWifi;
 typedef struct _NMDeviceWifi NMDeviceWifi;
+namespace libnm
+{
+	class AccessPoint;
+}
 
 namespace libnm
 {
@@ -20,6 +25,8 @@ namespace libnm
 	public:
 		DeviceWifi( NMDeviceWifi* pDeviceWifi );
 		virtual ~DeviceWifi();
+
+		std::vector<libnm::AccessPoint> getAccessPoints() const;
 	};
 
 } // end of namespace libnm
