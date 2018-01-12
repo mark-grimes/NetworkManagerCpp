@@ -29,7 +29,6 @@ libnm::Device::DeviceType libnm::Device::type() const
 	else if( NM_IS_DEVICE_MODEM(pDevice_) ) return DeviceType::MODEM;
 	else if( NM_IS_DEVICE_VLAN(pDevice_) ) return DeviceType::VLAN;
 	else if( NM_IS_DEVICE_BT(pDevice_) ) return DeviceType::BT;
-	else if( NM_IS_DEVICE_WIMAX(pDevice_) ) return DeviceType::WIMAX;
 	else if( NM_IS_DEVICE_IP_TUNNEL(pDevice_) ) return DeviceType::IP;
 	else if( NM_IS_DEVICE_BOND(pDevice_) ) return DeviceType::BOND;
 	else if( NM_IS_DEVICE_ETHERNET(pDevice_) ) return DeviceType::ETHERNET;
