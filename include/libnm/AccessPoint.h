@@ -26,6 +26,8 @@ namespace libnm
 		std::vector<uint8_t> getSSID() const;
 		std::string getSSIDString() const;
 		const char* getBSSID() const;
+		uint32_t getMaxBitrate() const;
+		uint8_t getStrength() const;
 	protected:
 		NMAccessPoint* pAccessPoint_;
 	};

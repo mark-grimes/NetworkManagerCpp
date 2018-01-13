@@ -36,3 +36,13 @@ const char* libnm::AccessPoint::getBSSID() const
 {
 	return nm_access_point_get_bssid(pAccessPoint_);
 }
+
+uint32_t libnm::AccessPoint::getMaxBitrate() const
+{
+	return nm_access_point_get_max_bitrate(pAccessPoint_);
+}
+
+uint8_t libnm::AccessPoint::getStrength() const
+{
+	return nm_access_point_get_strength(pAccessPoint_);
+}
