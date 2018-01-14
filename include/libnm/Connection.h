@@ -17,6 +17,10 @@ namespace libnm
 	class Connection
 	{
 	public:
+		Connection( const libnm::Connection& other );
+		Connection( libnm::Connection&& other );
+		libnm::Connection& operator=( const libnm::Connection& other );
+		libnm::Connection& operator=( libnm::Connection&& other );
 		virtual ~Connection();
 		const char* getId() const;
 	protected:
