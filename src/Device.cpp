@@ -6,12 +6,38 @@
 libnm::Device::Device( NMDevice* pDevice )
 	: pDevice_(pDevice)
 {
-	//g_object_ref(pDevice_);
+	g_object_ref(pDevice_);
+}
+
+libnm::Device::Device( const libnm::Device& other )
+{
+	pDevice_=other.pDevice_;
+	g_object_ref(pDevice_);
+}
+
+libnm::Device::Device( libnm::Device&& other )
+{
+	pDevice_=other.pDevice_;
+	other.pDevice_=nullptr;
+}
+
+libnm::Device& libnm::Device::operator=( const libnm::Device& other )
+{
+	pDevice_=other.pDevice_;
+	g_object_ref(pDevice_);
+	return *this;
+}
+
+libnm::Device& libnm::Device::operator=( libnm::Device&& other )
+{
+	pDevice_=other.pDevice_;
+	other.pDevice_=nullptr;
+	return *this;
 }
 
 libnm::Device::~Device()
 {
-	//g_object_unref(pDevice_);
+	if( pDevice_ ) g_object_unref(pDevice_);
 }
 
 libnm::Device::DeviceType libnm::Device::type() const

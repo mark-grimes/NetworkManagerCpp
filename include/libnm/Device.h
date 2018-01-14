@@ -24,6 +24,10 @@ namespace libnm
 		friend class libnm::Client;
 	public:
 		enum class DeviceType { UNKNOWN, MACSEC, OLPC, BRIDGE, ADSL, INFINIBAND, MACVLAN, TEAM, VXLAN, MODEM, VLAN, BT, IP, BOND, ETHERNET, TUN, GENERIC, WIFI };
+		Device( const libnm::Device& other );
+		Device( libnm::Device&& other );
+		libnm::Device& operator=( const libnm::Device& other );
+		libnm::Device& operator=( libnm::Device&& other );
 		virtual ~Device();
 
 		libnm::Device::DeviceType type() const;
