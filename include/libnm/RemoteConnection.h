@@ -24,7 +24,7 @@ namespace libnm
 	{
 		friend class libnm::Client;
 	public:
-		~RemoteConnection();
+		virtual ~RemoteConnection();
 	protected:
 		RemoteConnection( NMRemoteConnection* pRemoteConnection );
 	};
