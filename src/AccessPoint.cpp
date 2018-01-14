@@ -2,14 +2,40 @@
 #include <NetworkManager.h>
 
 libnm::AccessPoint::AccessPoint( NMAccessPoint* pAccessPoint )
-	: pAccessPoint_( pAccessPoint )
+	: pAccessPoint_(pAccessPoint)
 {
-	//g_object_ref(pAccessPoint_);
+	g_object_ref(pAccessPoint_);
+}
+
+libnm::AccessPoint::AccessPoint( const libnm::AccessPoint& other )
+{
+	pAccessPoint_=other.pAccessPoint_;
+	if( pAccessPoint_ ) g_object_ref(pAccessPoint_);
+}
+
+libnm::AccessPoint::AccessPoint( libnm::AccessPoint&& other )
+{
+	pAccessPoint_=other.pAccessPoint_;
+	other.pAccessPoint_=nullptr;
+}
+
+libnm::AccessPoint& libnm::AccessPoint::operator=( const libnm::AccessPoint& other )
+{
+	pAccessPoint_=other.pAccessPoint_;
+	if( pAccessPoint_ ) g_object_ref(pAccessPoint_);
+	return *this;
+}
+
+libnm::AccessPoint& libnm::AccessPoint::operator=( libnm::AccessPoint&& other )
+{
+	pAccessPoint_=other.pAccessPoint_;
+	other.pAccessPoint_=nullptr;
+	return *this;
 }
 
 libnm::AccessPoint::~AccessPoint()
 {
-	//g_object_unref(pAccessPoint_);
+	if( pAccessPoint_ ) g_object_unref(pAccessPoint_);
 }
 
 std::vector<uint8_t> libnm::AccessPoint::getSSID() const

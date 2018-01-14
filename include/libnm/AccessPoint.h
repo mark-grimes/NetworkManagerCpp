@@ -21,6 +21,10 @@ namespace libnm
 	{
 	public:
 		AccessPoint( NMAccessPoint* pAccessPoint );
+		AccessPoint( const libnm::AccessPoint& other );
+		AccessPoint( libnm::AccessPoint&& other );
+		libnm::AccessPoint& operator=( const libnm::AccessPoint& other );
+		libnm::AccessPoint& operator=( libnm::AccessPoint&& other );
 		virtual ~AccessPoint();
 
 		std::vector<uint8_t> getSSID() const;
