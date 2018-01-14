@@ -16,9 +16,35 @@ libnm::Client::Client()
 	}
 }
 
+libnm::Client::Client( const libnm::Client& other )
+{
+	pClient_=other.pClient_;
+	if( pClient_ ) g_object_ref(pClient_);
+}
+
+libnm::Client::Client( libnm::Client&& other )
+{
+	pClient_=other.pClient_;
+	other.pClient_=nullptr;
+}
+
+libnm::Client& libnm::Client::operator=( const libnm::Client& other )
+{
+	pClient_=other.pClient_;
+	if( pClient_ ) g_object_ref(pClient_);
+	return *this;
+}
+
+libnm::Client& libnm::Client::operator=( libnm::Client&& other )
+{
+	pClient_=other.pClient_;
+	other.pClient_=nullptr;
+	return *this;
+}
+
 libnm::Client::~Client()
 {
-	g_object_unref(pClient_);
+	if( pClient_ ) g_object_unref(pClient_);
 }
 
 const char* libnm::Client::getVersion() const

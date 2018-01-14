@@ -24,6 +24,10 @@ namespace libnm
 	{
 	public:
 		Client();
+		Client( const libnm::Client& other );
+		Client( libnm::Client&& other );
+		libnm::Client& operator=( const libnm::Client& other );
+		libnm::Client& operator=( libnm::Client&& other );
 		~Client();
 		const char* getVersion() const;
 		std::vector<libnm::RemoteConnection> getConnections() const;
