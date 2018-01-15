@@ -6,6 +6,11 @@
 //
 struct _NMConnection;
 typedef struct _NMConnection NMConnection;
+namespace libnm
+{
+	class Setting;
+}
+
 
 namespace libnm
 {
@@ -22,6 +27,11 @@ namespace libnm
 		libnm::Connection& operator=( const libnm::Connection& other );
 		libnm::Connection& operator=( libnm::Connection&& other );
 		virtual ~Connection();
+
+		NMConnection* native_handle();
+		const NMConnection* native_handle() const;
+
+		void addSetting( libnm::Setting&& setting );
 		const char* getId() const;
 	protected:
 		Connection( NMConnection* pConnection );

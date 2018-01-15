@@ -1,10 +1,11 @@
 #include "libnm/Connection.h"
+#include "libnm/Setting.h"
 #include <NetworkManager.h>
 
 libnm::Connection::Connection( NMConnection* pConnection )
 	: pConnection_(pConnection)
 {
-	g_object_ref(pConnection_);
+	if( pConnection_ ) g_object_ref(pConnection_);
 }
 
 libnm::Connection::Connection( const libnm::Connection& other )
@@ -36,6 +37,23 @@ libnm::Connection& libnm::Connection::operator=( libnm::Connection&& other )
 libnm::Connection::~Connection()
 {
 	if( pConnection_ ) g_object_unref(pConnection_);
+}
+
+NMConnection* libnm::Connection::native_handle()
+{
+	return pConnection_;
+}
+
+const NMConnection* libnm::Connection::native_handle() const
+{
+	return pConnection_;
+}
+
+void libnm::Connection::addSetting( libnm::Setting&& setting )
+{
+	nm_connection_add_setting( pConnection_, setting.native_handle() );
+	// The connection has taken ownership, so need to invaildate the setting object
+	setting.invalidate();
 }
 
 const char* libnm::Connection::getId() const
