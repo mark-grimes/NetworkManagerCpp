@@ -32,6 +32,7 @@ namespace libnm
 		const NMConnection* native_handle() const;
 
 		void addSetting( libnm::Setting&& setting );
+		const char * getUuid() const;
 		const char* getId() const;
 	protected:
 		Connection( NMConnection* pConnection );

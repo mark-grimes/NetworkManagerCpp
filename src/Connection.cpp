@@ -56,6 +56,11 @@ void libnm::Connection::addSetting( libnm::Setting&& setting )
 	setting.invalidate();
 }
 
+const char* libnm::Connection::getUuid() const
+{
+	return nm_connection_get_uuid(pConnection_);
+}
+
 const char* libnm::Connection::getId() const
 {
 	return nm_connection_get_id(pConnection_);
