@@ -24,8 +24,6 @@ void libnm::SettingWireless::setSSID( const std::vector<uint8_t>& ssid )
 	//g_byte_array_free( pBytes, true );
 }
 
-#include <iostream>
-
 void libnm::SettingWireless::setSSID( const std::string& ssid )
 {
 	GByteArray *pBytes=g_byte_array_sized_new( ssid.size() );
