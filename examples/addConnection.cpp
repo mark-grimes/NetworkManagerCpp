@@ -14,6 +14,23 @@ void printConnections( const libnm::Client& client )
 	}
 }
 
+libnm::RemoteConnection addConnection( libnm::Client& client, const std::string& name, const std::string& SSID, const std::string& password )
+{
+	libnm::SettingWireless settingWireless;
+	settingWireless.setSSID( SSID );
+	settingWireless.setMode( libnm::SettingWireless::Mode::INFRA );
+
+	libnm::SettingWirelessSecurity settingWirelessSecurity;
+	settingWirelessSecurity.setPSK( password );
+	settingWirelessSecurity.setKeyMgmt( libnm::SettingWirelessSecurity::KeyMgmt::WPA_PSK );
+
+	libnm::SimpleConnection connection( name, libnm::SimpleConnection::ConnectionType::WIRELESS );
+	connection.addSetting( std::move(settingWireless) );
+	connection.addSetting( std::move(settingWirelessSecurity) );
+
+	return client.addConnection( connection );
+}
+
 int main( int argc, char* argv[] )
 {
 	try
@@ -22,19 +39,7 @@ int main( int argc, char* argv[] )
 		std::cout << "Connections before:" << "\n";
 		printConnections( client );
 
-		libnm::SettingWireless settingWireless;
-		settingWireless.setSSID( "foobar" );
-		settingWireless.setMode( libnm::SettingWireless::Mode::INFRA );
-
-		libnm::SettingWirelessSecurity settingWirelessSecurity;
-		settingWirelessSecurity.setPSK( "passw0rd" );
-		settingWirelessSecurity.setKeyMgmt( libnm::SettingWirelessSecurity::KeyMgmt::WPA_PSK );
-
-		libnm::SimpleConnection connection( "Test WiFi connection", libnm::SimpleConnection::ConnectionType::WIRELESS );
-		connection.addSetting( std::move(settingWireless) );
-		connection.addSetting( std::move(settingWirelessSecurity) );
-
-		client.addConnection( connection );
+		libnm::RemoteConnection newConnection=addConnection( client, "Test WiFi connection", "foobar", "passw0rd" );
 
 		std::cout << "Connections After:" << "\n";
 		printConnections( client );
