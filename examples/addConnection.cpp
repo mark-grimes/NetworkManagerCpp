@@ -30,7 +30,7 @@ int main( int argc, char* argv[] )
 		settingWirelessSecurity.setPSK( "passw0rd" );
 		settingWirelessSecurity.setKeyMgmt( libnm::SettingWirelessSecurity::KeyMgmt::WPA_PSK );
 
-		libnm::SimpleConnection connection( "Blah", libnm::SimpleConnection::ConnectionType::WIRELESS );
+		libnm::SimpleConnection connection( "Test WiFi connection", libnm::SimpleConnection::ConnectionType::WIRELESS );
 		connection.addSetting( std::move(settingWireless) );
 		connection.addSetting( std::move(settingWirelessSecurity) );
 
