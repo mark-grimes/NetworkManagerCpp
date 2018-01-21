@@ -21,8 +21,6 @@ namespace // Unnamed namespace for things only used in this file
 	{
 		::CallbackContext<NMRemoteConnection*>& callbackContext=*reinterpret_cast<::CallbackContext<NMRemoteConnection*>*>(pUserData);
 		callbackContext.hasCompleted=true;
-
-		GError* pError=nullptr;
 		callbackContext.result=nm_client_add_connection_finish( NM_CLIENT(pSourceObject), pResult, &callbackContext.pError );
 	}
 
