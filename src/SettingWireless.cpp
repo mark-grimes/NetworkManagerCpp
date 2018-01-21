@@ -11,6 +11,11 @@ libnm::SettingWireless::~SettingWireless()
 {
 }
 
+void libnm::SettingWireless::setMACAddress( const std::string& macAddress )
+{
+	g_object_set( pSetting_, NM_SETTING_WIRELESS_MAC_ADDRESS, macAddress.c_str(), NULL );
+}
+
 void libnm::SettingWireless::setSSID( const std::vector<uint8_t>& ssid )
 {
 	GByteArray *pBytes=g_byte_array_sized_new( ssid.size() );

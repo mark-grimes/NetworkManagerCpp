@@ -24,6 +24,8 @@ namespace libnm
 		SettingWireless();
 		virtual ~SettingWireless();
 
+		void setMACAddress( const std::string& ssid );
+
 		void setSSID( const std::vector<uint8_t>& ssid );
 		void setSSID( const std::string& ssid );
 
