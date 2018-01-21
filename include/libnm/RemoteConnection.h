@@ -26,7 +26,7 @@ namespace libnm
 	public:
 		virtual ~RemoteConnection();
 	protected:
-		RemoteConnection( NMRemoteConnection* pRemoteConnection );
+		RemoteConnection( NMRemoteConnection* pRemoteConnection, bool adopt=false );
 	};
 
 } // end of namespace libnm

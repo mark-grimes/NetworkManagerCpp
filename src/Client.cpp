@@ -108,5 +108,5 @@ libnm::RemoteConnection libnm::Client::addConnection( libnm::Connection& connect
 	while( !callbackContext.hasCompleted ) g_main_context_iteration( nullptr, true );
 
 	if( callbackContext.pError ) throw std::runtime_error( callbackContext.pError->message );
-	else return libnm::RemoteConnection( callbackContext.result );
+	else return libnm::RemoteConnection( callbackContext.result, true );
 }

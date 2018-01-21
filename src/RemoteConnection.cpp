@@ -1,7 +1,9 @@
 #include "libnm/RemoteConnection.h"
+#include <stdexcept>
+#include <NetworkManager.h>
 
-libnm::RemoteConnection::RemoteConnection( NMRemoteConnection* pRemoteConnection )
-	: Connection( reinterpret_cast<NMConnection*>(pRemoteConnection) )
+libnm::RemoteConnection::RemoteConnection( NMRemoteConnection* pRemoteConnection, bool adopt )
+	: Connection( reinterpret_cast<NMConnection*>(pRemoteConnection), adopt )
 {
 }
 

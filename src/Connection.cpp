@@ -2,10 +2,10 @@
 #include "libnm/Setting.h"
 #include <NetworkManager.h>
 
-libnm::Connection::Connection( NMConnection* pConnection )
+libnm::Connection::Connection( NMConnection* pConnection, bool adopt )
 	: pConnection_(pConnection)
 {
-	if( pConnection_ ) g_object_ref(pConnection_);
+	if( pConnection_ && !adopt ) g_object_ref(pConnection_);
 }
 
 libnm::Connection::Connection( const libnm::Connection& other )

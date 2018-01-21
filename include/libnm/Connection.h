@@ -35,7 +35,7 @@ namespace libnm
 		const char * getUuid() const;
 		const char* getId() const;
 	protected:
-		Connection( NMConnection* pConnection );
+		Connection( NMConnection* pConnection, bool adopt=false );
 		NMConnection* pConnection_;
 	};
 
