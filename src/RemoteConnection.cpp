@@ -13,7 +13,7 @@ namespace // Unnamed namespace
 		GError* pError=nullptr;
 		~Error() { if( pError ) g_error_free( pError ); }
 		operator GError**() { return &pError; } // Automatic conversion for NM functions
-		operator bool() { return pError==nullptr; } // For use in "if( error )" statements
+		operator bool() { return pError!=nullptr; } // For use in "if( error )" statements
 	};
 } // end of the unnamed namespace
 
@@ -36,13 +36,8 @@ bool libnm::RemoteConnection::save() const
 
 bool libnm::RemoteConnection::deleteConnection()
 {
-	GError* pError=nullptr;
-	bool result=nm_remote_connection_delete( reinterpret_cast<NMRemoteConnection*>(pConnection_), nullptr, &pError );
-	if( pError )
-	{
-		std::string message=pError->message;
-		g_error_free( pError );
-		throw std::runtime_error(message);
-	}
+	::Error deleteError;
+	bool result=nm_remote_connection_delete( reinterpret_cast<NMRemoteConnection*>(pConnection_), nullptr, deleteError );
+	if( deleteError ) throw std::runtime_error(deleteError.pError->message);
 	return result;
 }
