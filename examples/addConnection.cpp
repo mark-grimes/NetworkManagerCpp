@@ -31,6 +31,18 @@ libnm::RemoteConnection addConnection( libnm::Client& client, const std::string&
 	return client.addConnection( connection );
 }
 
+bool deleteConnection( libnm::Client& client, const std::string& UUID )
+{
+	for( auto& connection : client.getConnections() )
+	{
+		if( connection.getUuid() == UUID )
+		{
+			std::cout << "Deleting connection '" << connection.getId() << "' with UUID " << connection.getUuid() << "\n";
+			connection.deleteConnection();
+		}
+	}
+}
+
 int main( int argc, char* argv[] )
 {
 	try
@@ -43,6 +55,10 @@ int main( int argc, char* argv[] )
 
 		std::cout << "Connections After:" << "\n";
 		printConnections( client );
+
+		// Could easily call newConnection.deleteConnection(), but for demonstration purposes show
+		// searching for a specific connection to delete.
+		deleteConnection( client, newConnection.getUuid() );
 	}
 	catch( const std::exception& error )
 	{
