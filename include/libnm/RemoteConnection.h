@@ -25,6 +25,7 @@ namespace libnm
 		friend class libnm::Client;
 	public:
 		virtual ~RemoteConnection();
+		bool save() const;
 		bool deleteConnection();
 	protected:
 		RemoteConnection( NMRemoteConnection* pRemoteConnection, bool adopt=false );
