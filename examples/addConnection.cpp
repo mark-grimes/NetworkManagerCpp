@@ -4,6 +4,7 @@
 #include "libnm/SimpleConnection.h"
 #include "libnm/RemoteConnection.h"
 #include "libnm/SettingWireless.h"
+#include "libnm/SettingWirelessSecurity.h"
 
 void printConnections( const libnm::Client& client )
 {
@@ -25,8 +26,13 @@ int main( int argc, char* argv[] )
 		settingWireless.setSSID( "foobar" );
 		settingWireless.setMode( libnm::SettingWireless::Mode::INFRA );
 
+		libnm::SettingWirelessSecurity settingWirelessSecurity;
+		settingWirelessSecurity.setPSK( "passw0rd" );
+		settingWirelessSecurity.setKeyMgmt( libnm::SettingWirelessSecurity::KeyMgmt::WPA_PSK );
+
 		libnm::SimpleConnection connection( "Blah", libnm::SimpleConnection::ConnectionType::WIRELESS );
 		connection.addSetting( std::move(settingWireless) );
+		connection.addSetting( std::move(settingWirelessSecurity) );
 
 		client.addConnection( connection );
 
