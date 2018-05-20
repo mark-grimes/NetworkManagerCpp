@@ -1,6 +1,7 @@
 #ifndef INCLUDEGUARD_libnm_Device_h
 #define INCLUDEGUARD_libnm_Device_h
 
+#include <string>
 //
 // Forward declarations
 //
@@ -34,6 +35,13 @@ namespace libnm
 		const char* getIface() const;
 		const char* getDriver() const;
 	protected:
+		template<typename string_1,typename string_2>
+		Device( libnm::Device::DeviceType type, string_1&& interface, string_2&& driver )
+			: type_(type), interface_(std::forward<string_1>(interface)), driver_(std::forward<string_2>(driver))
+		{ /* No operation */ }
+		libnm::Device::DeviceType type_;
+		const std::string interface_;
+		const std::string driver_;
 	};
 
 } // end of namespace libnm

@@ -24,6 +24,11 @@ namespace libnm
 		virtual ~DeviceWifi();
 
 		std::vector<libnm::AccessPoint> getAccessPoints() const;
+	public:
+		template<typename string_1,typename string_2>
+		DeviceWifi( libnm::Device::DeviceType type, string_1&& interface, string_2&& driver )
+			: libnm::Device(type,std::forward<string_1>(interface),std::forward<string_2>(driver))
+		{ /* No operation */ }
 	};
 
 } // end of namespace libnm

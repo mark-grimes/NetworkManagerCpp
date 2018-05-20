@@ -1,7 +1,7 @@
 #include "libnm/Client.h"
 #include <stdexcept>
 #include "libnm/RemoteConnection.h"
-// #include "libnm/Device.h"
+#include "libnm/Device.h"
 
 libnm::Client::Client()
 {
@@ -18,16 +18,15 @@ const char* libnm::Client::getVersion() const
 
 std::vector<libnm::RemoteConnection> libnm::Client::getConnections() const
 {
-	throw std::logic_error("libnm::Client::getConnections() has not been implemented for the mock classes");
-	// std::vector<libnm::RemoteConnection> returnValue;
-	// return returnValue;
+	std::vector<libnm::RemoteConnection> returnValue;
+	return returnValue;
 }
 
 std::vector<libnm::Device> libnm::Client::getDevices() const
 {
-	throw std::logic_error("libnm::Client::getDevices() has not been implemented for the mock classes");
-	// std::vector<libnm::Device> returnValue;
-	// return returnValue;
+	std::vector<libnm::Device> returnValue;
+	returnValue.push_back( libnm::Device(libnm::Device::DeviceType::WIFI,"wlan0","brcmfmac_sdio") );
+	return returnValue;
 }
 
 libnm::RemoteConnection libnm::Client::addConnection( libnm::Connection& connection )

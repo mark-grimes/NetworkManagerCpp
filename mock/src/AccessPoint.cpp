@@ -1,5 +1,10 @@
 #include "libnm/AccessPoint.h"
 
+libnm::AccessPoint::AccessPoint()
+{
+	// No operation
+}
+
 libnm::AccessPoint::~AccessPoint()
 {
 }

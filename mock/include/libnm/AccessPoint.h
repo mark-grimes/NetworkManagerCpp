@@ -26,7 +26,8 @@ namespace libnm
 		const char* getBSSID() const;
 		uint32_t getMaxBitrate() const;
 		uint8_t getStrength() const;
-	protected:
+	public:
+		AccessPoint(); ///< N.B. Not part of the non-mock class
 	};
 
 } // end of namespace libnm

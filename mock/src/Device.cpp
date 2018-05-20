@@ -9,20 +9,20 @@ libnm::Device::~Device()
 
 libnm::Device::DeviceType libnm::Device::type() const
 {
-	return DeviceType::WIFI;
+	return type_;
 }
 
 libnm::DeviceWifi libnm::Device::asDeviceWifi()
 {
-	throw std::runtime_error("Device::asDeviceWifi called on a non-WIFI device");
+	return libnm::DeviceWifi( type_, interface_, driver_ );
 }
 
 const char* libnm::Device::getIface() const
 {
-	return "wlan0";
+	return interface_.c_str();
 }
 
 const char* libnm::Device::getDriver() const
 {
-	return "brcmfmac_sdio";
+	return driver_.c_str();
 }
