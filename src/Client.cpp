@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <NetworkManager.h>
 #include "libnm/RemoteConnection.h"
+#include "libnm/ActiveConnection.h"
 #include "libnm/Device.h"
 
 namespace // Unnamed namespace for things only used in this file
@@ -12,16 +13,18 @@ namespace // Unnamed namespace for things only used in this file
 		bool hasCompleted=false;
 		T_ReturnType result;
 		GError* pError=nullptr;
+		T_ReturnType (*pFinishFunction)( NMClient* pClient, GAsyncResult* pResult, GError** pError );
 		static void callback( GObject* pSourceObject, GAsyncResult* pResult, void* pUserData );
+		CallbackContext( T_ReturnType (*pFinishFunc)( NMClient*, GAsyncResult*, GError** ) ) : pFinishFunction(pFinishFunc) {}
 		~CallbackContext() { if( pError ) g_error_free( pError ); }
 	};
 
-	template<>
-	void CallbackContext<NMRemoteConnection*>::callback( GObject* pSourceObject, GAsyncResult* pResult, void* pUserData )
+	template<class T_ReturnType>
+	void CallbackContext<T_ReturnType>::callback( GObject* pSourceObject, GAsyncResult* pResult, void* pUserData )
 	{
-		::CallbackContext<NMRemoteConnection*>& callbackContext=*reinterpret_cast<::CallbackContext<NMRemoteConnection*>*>(pUserData);
+		::CallbackContext<T_ReturnType>& callbackContext=*reinterpret_cast<::CallbackContext<T_ReturnType>*>(pUserData);
 		callbackContext.hasCompleted=true;
-		callbackContext.result=nm_client_add_connection_finish( NM_CLIENT(pSourceObject), pResult, &callbackContext.pError );
+		callbackContext.result=(*callbackContext.pFinishFunction)( NM_CLIENT(pSourceObject), pResult, &callbackContext.pError );
 	}
 
 } // end of the unnamed namespace
@@ -102,11 +105,22 @@ std::vector<libnm::Device> libnm::Client::getDevices() const
 
 libnm::RemoteConnection libnm::Client::addConnection( libnm::Connection& connection )
 {
-	::CallbackContext<NMRemoteConnection*> callbackContext; // wait for addConnectionCallback to complete so okay to use the stack
+	::CallbackContext<NMRemoteConnection*> callbackContext( &nm_client_add_connection_finish ); // wait for callback to complete so okay to use the stack
 	nm_client_add_connection_async( pClient_, connection.native_handle(), false, nullptr, &::CallbackContext<NMRemoteConnection*>::callback, &callbackContext );
 	// I haven't implemented a way to handle asynchronous methods yet, so just wait on the result here.
 	while( !callbackContext.hasCompleted ) g_main_context_iteration( nullptr, true );
 
 	if( callbackContext.pError ) throw std::runtime_error( callbackContext.pError->message );
 	else return libnm::RemoteConnection( callbackContext.result, true );
+}
+
+libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& connection )
+{
+	::CallbackContext<NMActiveConnection*> callbackContext( &nm_client_activate_connection_finish ); // wait for callback to complete so okay to use the stack
+	nm_client_activate_connection_async( pClient_, connection.native_handle(), nullptr, nullptr, nullptr, &::CallbackContext<NMActiveConnection*>::callback, &callbackContext );
+	// I haven't implemented a way to handle asynchronous methods yet, so just wait on the result here.
+	while( !callbackContext.hasCompleted ) g_main_context_iteration( nullptr, true );
+
+	if( callbackContext.pError ) throw std::runtime_error( callbackContext.pError->message );
+	else return libnm::ActiveConnection( callbackContext.result, true );
 }

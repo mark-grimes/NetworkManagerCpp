@@ -1,6 +1,7 @@
 #include "libnm/Client.h"
 #include <stdexcept>
 #include "libnm/RemoteConnection.h"
+#include "libnm/ActiveConnection.h"
 #include "libnm/Device.h"
 
 libnm::Client::Client()
@@ -29,6 +30,11 @@ std::vector<libnm::Device> libnm::Client::getDevices() const
 libnm::RemoteConnection libnm::Client::addConnection( libnm::Connection& connection )
 {
 	throw std::logic_error("libnm::Client::addConnection() has not been implemented for the mock classes");
+}
+
+libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& connection )
+{
+	throw std::logic_error("libnm::Client::activateConnection() has not been implemented for the mock classes");
 }
 
 void libnm::Client::mock_addDevice( libnm::Device::DeviceType type, const std::string& interface, const std::string& driver )
