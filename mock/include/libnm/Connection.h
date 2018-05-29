@@ -1,6 +1,7 @@
 #ifndef INCLUDEGUARD_libnm_Connection_h
 #define INCLUDEGUARD_libnm_Connection_h
 
+#include <string>
 //
 // Forward declarations
 //
@@ -35,6 +36,12 @@ namespace libnm
 		const char * getUuid() const;
 		const char* getId() const;
 	protected:
+		template<typename string_1,typename string_2>
+		Connection( string_1&& uuid, string_2&& id )
+			: uuid_(std::forward<string_1>(uuid)), id_(std::forward<string_2>(id))
+		{ /* No operation */ }
+		const std::string uuid_;
+		const std::string id_;
 	};
 
 } // end of namespace libnm

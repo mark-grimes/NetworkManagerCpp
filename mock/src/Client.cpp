@@ -18,8 +18,7 @@ const char* libnm::Client::getVersion() const
 
 std::vector<libnm::RemoteConnection> libnm::Client::getConnections() const
 {
-	std::vector<libnm::RemoteConnection> returnValue;
-	return returnValue;
+	return connections_;
 }
 
 std::vector<libnm::Device> libnm::Client::getDevices() const

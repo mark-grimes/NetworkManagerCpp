@@ -23,10 +23,10 @@ void libnm::Connection::addSetting( libnm::Setting&& setting )
 
 const char* libnm::Connection::getUuid() const
 {
-	throw std::logic_error("libnm::Connection::getUuid() has not been implemented for the mock classes");
+	return uuid_.c_str();
 }
 
 const char* libnm::Connection::getId() const
 {
-	throw std::logic_error("libnm::Connection::getId() has not been implemented for the mock classes");
+	return id_.c_str();
 }

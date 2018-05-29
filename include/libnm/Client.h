@@ -25,6 +25,9 @@ namespace libnm
 	class Client
 	{
 	public:
+		/// Indicate that this is the real hardware class and not the mock object
+		static constexpr bool isMock() { return false; }
+	public:
 		Client();
 		Client( const libnm::Client& other );
 		Client( libnm::Client&& other );

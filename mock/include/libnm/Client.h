@@ -23,6 +23,9 @@ namespace libnm
 	class Client
 	{
 	public:
+		/// Indicate that this is not running on real hardware
+		static constexpr bool isMock() { return true; }
+	public:
 		Client();
 		Client( const libnm::Client& other ) = default;
 		Client( libnm::Client&& other ) = default;
@@ -33,7 +36,15 @@ namespace libnm
 		std::vector<libnm::RemoteConnection> getConnections() const;
 		std::vector<libnm::Device> getDevices() const;
 		libnm::RemoteConnection addConnection( libnm::Connection& connection );
-	private:
+	public:
+		// Extra methods to set up mocking behaviour
+		template<typename uuid_string,typename id_string>
+		void mock_addConnection( uuid_string&& uuid, id_string&& id )
+		{
+			connections_.push_back( libnm::RemoteConnection(std::forward<uuid_string>(uuid),std::forward<id_string>(id)) );
+		}
+	protected:
+		std::vector<libnm::RemoteConnection> connections_;
 	};
 
 } // end of namespace libnm
