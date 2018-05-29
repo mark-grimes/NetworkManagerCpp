@@ -2,6 +2,7 @@
 #include "libnm/Client.h"
 #include "libnm/SimpleConnection.h"
 #include "libnm/RemoteConnection.h"
+#include "libnm/ActiveConnection.h"
 #include "libnm/SettingWireless.h"
 #include "libnm/SettingWirelessSecurity.h"
 #include "libnm/SettingIP4Config.h"
@@ -17,8 +18,7 @@ libnm::RemoteConnection createAccessPoint( libnm::Client& client, const std::str
 	settingWirelessSecurity.setKeyMgmt( libnm::SettingWirelessSecurity::KeyMgmt::WPA_PSK );
 
 	libnm::SettingIP4Config settingIP4Config;
-	settingIP4Config.setMethod( libnm::SettingIP4Config::Method::MANUAL );
-	settingIP4Config.addAddress( "192.168.0.1", 24 );
+	settingIP4Config.setMethod( libnm::SettingIP4Config::Method::LINK_LOCAL );
 
 	libnm::SimpleConnection connection( name, libnm::SimpleConnection::ConnectionType::WIRELESS );
 	connection.addSetting( std::move(settingWireless) );
@@ -35,6 +35,7 @@ int main( int argc, char* argv[] )
 		libnm::Client client;
 		libnm::RemoteConnection accessPoint=createAccessPoint( client, "My access point", "MG-AP", "passw0rd" );
 		//accessPoint.save();
+		libnm::ActiveConnection activeConnection=client.activateConnection( accessPoint );
 	}
 	catch( const std::exception& error )
 	{
