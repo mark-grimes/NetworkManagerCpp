@@ -25,10 +25,12 @@ namespace libnm
 
 		std::vector<libnm::AccessPoint> getAccessPoints() const;
 	public:
-		template<typename string_1,typename string_2>
-		DeviceWifi( libnm::Device::DeviceType type, string_1&& interface, string_2&& driver )
-			: libnm::Device(type,std::forward<string_1>(interface),std::forward<string_2>(driver))
-		{ /* No operation */ }
+		// Extra methods to set up mocking behaviour
+		DeviceWifi( libnm::Device::DeviceType type, const std::string& interface, const std::string& driver );
+		void mock_addAccessPoint( const std::vector<uint8_t>& ssid, const std::string& bssid, uint32_t maxBitrate, uint8_t strength );
+	protected:
+		friend class libnm::Device;
+		explicit DeviceWifi( std::shared_ptr<libnm::detail::DevicePrivateMembers> pData );
 	};
 
 } // end of namespace libnm

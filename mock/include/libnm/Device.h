@@ -13,6 +13,12 @@ namespace libnm
 
 namespace libnm
 {
+	// Forward declare the pimple class
+	namespace detail
+	{
+		struct DevicePrivateMembers;
+	}
+
 	/** @brief Mock implementation of the wrapper around the libnm NMDevice structure
 	 *
 	 * @author Mark Grimes (mark.grimes@rymapt.com)
@@ -35,13 +41,9 @@ namespace libnm
 		const char* getIface() const;
 		const char* getDriver() const;
 	protected:
-		template<typename string_1,typename string_2>
-		Device( libnm::Device::DeviceType type, string_1&& interface, string_2&& driver )
-			: type_(type), interface_(std::forward<string_1>(interface)), driver_(std::forward<string_2>(driver))
-		{ /* No operation */ }
-		libnm::Device::DeviceType type_;
-		const std::string interface_;
-		const std::string driver_;
+		Device( libnm::Device::DeviceType type, const std::string& interface, const std::string& driver );
+		explicit Device( std::shared_ptr<libnm::detail::DevicePrivateMembers> pData );
+		std::shared_ptr<libnm::detail::DevicePrivateMembers> pData_;
 	};
 
 } // end of namespace libnm

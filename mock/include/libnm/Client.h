@@ -12,6 +12,7 @@ namespace libnm
 	class Connection;
 	class RemoteConnection;
 }
+#include "libnm/Device.h" // Only required for the mock class because I refer to libnm::Device::DeviceType
 
 namespace libnm
 {
@@ -38,12 +39,11 @@ namespace libnm
 		libnm::RemoteConnection addConnection( libnm::Connection& connection );
 	public:
 		// Extra methods to set up mocking behaviour
-		template<typename uuid_string,typename id_string>
-		void mock_addConnection( uuid_string&& uuid, id_string&& id )
-		{
-			connections_.push_back( libnm::RemoteConnection(std::forward<uuid_string>(uuid),std::forward<id_string>(id)) );
-		}
+		void mock_addDevice( libnm::Device::DeviceType type, const std::string& interface, const std::string& driver );
+		libnm::Device& mock_getDevice( size_t index );
+		void mock_addConnection( const std::string& uuid, const std::string& id );
 	protected:
+		std::vector<libnm::Device> devices_;
 		std::vector<libnm::RemoteConnection> connections_;
 	};
 

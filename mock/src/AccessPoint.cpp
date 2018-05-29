@@ -1,35 +1,36 @@
 #include "libnm/AccessPoint.h"
 
-libnm::AccessPoint::AccessPoint()
-{
-	// No operation
-}
-
 libnm::AccessPoint::~AccessPoint()
 {
 }
 
 std::vector<uint8_t> libnm::AccessPoint::getSSID() const
 {
-	return { 'S','S','I','D',' ','s','t','r','i','n','g' };
+	return ssid_;
 }
 
 std::string libnm::AccessPoint::getSSIDString() const
 {
-	return "SSID string";
+	std::string result;
+	for( const auto& byte : ssid_ )
+	{
+		if( byte>=32 && byte <=126 ) result+=byte;
+		else result+='?';
+	}
+	return result;
 }
 
 const char* libnm::AccessPoint::getBSSID() const
 {
-	return "A1:B2:C3:D4:E5:F6";
+	return bssid_.c_str();
 }
 
 uint32_t libnm::AccessPoint::getMaxBitrate() const
 {
-	return 54000;
+	return maxBitrate_;
 }
 
 uint8_t libnm::AccessPoint::getStrength() const
 {
-	return 80;
+	return strength_;
 }
