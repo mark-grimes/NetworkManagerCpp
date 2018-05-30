@@ -27,6 +27,9 @@ namespace libnm
 		libnm::AccessPoint& operator=( libnm::AccessPoint&& other );
 		virtual ~AccessPoint();
 
+		unsigned getFlags() const;
+		unsigned getWPAFlags() const;
+		unsigned getRSNFlags() const;
 		std::vector<uint8_t> getSSID() const;
 		std::string getSSIDString() const;
 		const char* getBSSID() const;

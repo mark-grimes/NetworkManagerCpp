@@ -38,6 +38,21 @@ libnm::AccessPoint::~AccessPoint()
 	if( pAccessPoint_ ) g_object_unref(pAccessPoint_);
 }
 
+unsigned libnm::AccessPoint::getFlags() const
+{
+	return nm_access_point_get_flags( pAccessPoint_ );
+}
+
+unsigned libnm::AccessPoint::getWPAFlags() const
+{
+	return nm_access_point_get_wpa_flags( pAccessPoint_ );
+}
+
+unsigned libnm::AccessPoint::getRSNFlags() const
+{
+	return nm_access_point_get_rsn_flags( pAccessPoint_ );
+}
+
 std::vector<uint8_t> libnm::AccessPoint::getSSID() const
 {
 	GBytes* pSSIDBytes=nm_access_point_get_ssid( pAccessPoint_ );

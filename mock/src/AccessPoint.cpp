@@ -4,6 +4,21 @@ libnm::AccessPoint::~AccessPoint()
 {
 }
 
+unsigned libnm::AccessPoint::getFlags() const
+{
+	return 0x01;
+}
+
+unsigned libnm::AccessPoint::getWPAFlags() const
+{
+	return 0x00;
+}
+
+unsigned libnm::AccessPoint::getRSNFlags() const
+{
+	return 0x00;
+}
+
 std::vector<uint8_t> libnm::AccessPoint::getSSID() const
 {
 	return ssid_;

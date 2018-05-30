@@ -20,6 +20,9 @@ int main( int argc, char* argv[] )
 						<< " \tstrength " << (int)accessPoint.getStrength()
 						<< " \tmax bit rate " << accessPoint.getMaxBitrate()
 						<< " \tSSID '" << accessPoint.getSSIDString() << "'"
+						<< " \tflags " << accessPoint.getFlags()
+						<< " \tWPA flags " << accessPoint.getWPAFlags()
+						<< " \tRSN flags " << accessPoint.getRSNFlags()
 						<< "\n";
 				} // end of loop over access points
 			}
