@@ -8,17 +8,17 @@ libnm::Connection::~Connection()
 
 NMConnection* libnm::Connection::native_handle()
 {
-	return nullptr;
+	throw std::logic_error("libnm::Connection::native_handle() has not been implemented for the mock classes");
 }
 
 const NMConnection* libnm::Connection::native_handle() const
 {
-	return nullptr;
+	throw std::logic_error("libnm::Connection::native_handle() has not been implemented for the mock classes");
 }
 
 void libnm::Connection::addSetting( libnm::Setting&& setting )
 {
-	throw std::logic_error("libnm::Connection::addSetting() has not been implemented for the mock classes");
+	settings_.push_back( std::move(setting) );
 }
 
 const char* libnm::Connection::getUuid() const

@@ -29,7 +29,8 @@ std::vector<libnm::Device> libnm::Client::getDevices() const
 
 libnm::RemoteConnection libnm::Client::addConnection( libnm::Connection& connection )
 {
-	throw std::logic_error("libnm::Client::addConnection() has not been implemented for the mock classes");
+	connections_.push_back( libnm::RemoteConnection(connection.getUuid(),connection.getId()) );
+	return connections_.back();
 }
 
 libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& connection )

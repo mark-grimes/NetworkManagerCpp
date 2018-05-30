@@ -2,6 +2,7 @@
 #define INCLUDEGUARD_libnm_Connection_h
 
 #include <string>
+#include <vector>
 //
 // Forward declarations
 //
@@ -11,7 +12,7 @@ namespace libnm
 {
 	class Setting;
 }
-
+#include "libnm/Setting.h" // Required in the mock class
 
 namespace libnm
 {
@@ -42,6 +43,7 @@ namespace libnm
 		{ /* No operation */ }
 		const std::string uuid_;
 		const std::string id_;
+		std::vector<libnm::Setting> settings_;
 	};
 
 } // end of namespace libnm
