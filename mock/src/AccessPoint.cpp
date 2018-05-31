@@ -1,4 +1,5 @@
 #include "libnm/AccessPoint.h"
+#include "libnm/Connection.h"
 
 libnm::AccessPoint::~AccessPoint()
 {
@@ -48,4 +49,9 @@ uint32_t libnm::AccessPoint::getMaxBitrate() const
 uint8_t libnm::AccessPoint::getStrength() const
 {
 	return strength_;
+}
+
+bool libnm::AccessPoint::connectionValid( const libnm::Connection& connection ) const
+{
+	return false;
 }

@@ -1,4 +1,5 @@
 #include "libnm/AccessPoint.h"
+#include "libnm/Connection.h"
 #include <NetworkManager.h>
 
 libnm::AccessPoint::AccessPoint( NMAccessPoint* pAccessPoint )
@@ -86,4 +87,9 @@ uint32_t libnm::AccessPoint::getMaxBitrate() const
 uint8_t libnm::AccessPoint::getStrength() const
 {
 	return nm_access_point_get_strength(pAccessPoint_);
+}
+
+bool libnm::AccessPoint::connectionValid( libnm::Connection& connection ) const
+{
+	return nm_access_point_connection_valid( pAccessPoint_, connection.native_handle() );
 }

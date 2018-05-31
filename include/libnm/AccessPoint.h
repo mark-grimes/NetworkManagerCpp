@@ -9,6 +9,10 @@
 //
 struct _NMAccessPoint;
 typedef struct _NMAccessPoint NMAccessPoint;
+namespace libnm
+{
+	class Connection;
+}
 
 namespace libnm
 {
@@ -35,6 +39,7 @@ namespace libnm
 		const char* getBSSID() const;
 		uint32_t getMaxBitrate() const;
 		uint8_t getStrength() const;
+		bool connectionValid( libnm::Connection& connection ) const;
 	protected:
 		NMAccessPoint* pAccessPoint_;
 	};

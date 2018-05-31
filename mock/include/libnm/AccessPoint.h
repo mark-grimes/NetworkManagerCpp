@@ -4,6 +4,13 @@
 #include <vector>
 #include <cstdint>
 #include <string>
+//
+// Forward declarations
+//
+namespace libnm
+{
+	class Connection;
+}
 
 namespace libnm
 {
@@ -29,6 +36,7 @@ namespace libnm
 		const char* getBSSID() const;
 		uint32_t getMaxBitrate() const;
 		uint8_t getStrength() const;
+		bool connectionValid( const libnm::Connection& connection ) const;
 	public:
 		// Extra methods to set up mocking behaviour
 		template<typename ssid_type,typename bssid_type>
