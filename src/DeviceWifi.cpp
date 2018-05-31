@@ -1,4 +1,5 @@
 #include "libnm/DeviceWifi.h"
+#include <stdexcept>
 #include "libnm/AccessPoint.h"
 #include <NetworkManager.h>
 
@@ -11,6 +12,13 @@ libnm::DeviceWifi::DeviceWifi( NMDeviceWifi* pDeviceWifi )
 libnm::DeviceWifi::~DeviceWifi()
 {
 	//g_object_unref(pDeviceWifi_);
+}
+
+libnm::AccessPoint libnm::DeviceWifi::getActiveAccessPoint()
+{
+	NMAccessPoint* pAccessPoint=nm_device_wifi_get_active_access_point( reinterpret_cast<NMDeviceWifi*>(pDevice_) );
+	if( pAccessPoint==nullptr ) throw std::runtime_error("libnm::DeviceWifi::getActiveAccessPoint() - no active access point");
+	else return libnm::AccessPoint(pAccessPoint);
 }
 
 std::vector<libnm::AccessPoint> libnm::DeviceWifi::getAccessPoints() const

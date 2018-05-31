@@ -6,6 +6,13 @@ libnm::DeviceWifi::~DeviceWifi()
 {
 }
 
+libnm::AccessPoint libnm::DeviceWifi::getActiveAccessPoint()
+{
+	// For now just return the first one
+	if( pData_->accessPoints_.empty() ) throw std::runtime_error("libnm::DeviceWifi::getActiveAccessPoint() - no active access point");
+	return pData_->accessPoints_.front();
+}
+
 std::vector<libnm::AccessPoint> libnm::DeviceWifi::getAccessPoints() const
 {
 	return pData_->accessPoints_;

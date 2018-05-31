@@ -26,6 +26,7 @@ namespace libnm
 		DeviceWifi( NMDeviceWifi* pDeviceWifi );
 		virtual ~DeviceWifi();
 
+		libnm::AccessPoint getActiveAccessPoint();
 		std::vector<libnm::AccessPoint> getAccessPoints() const;
 	};
 

@@ -23,6 +23,7 @@ namespace libnm
 	public:
 		virtual ~DeviceWifi();
 
+		libnm::AccessPoint getActiveAccessPoint();
 		std::vector<libnm::AccessPoint> getAccessPoints() const;
 	public:
 		// Extra methods to set up mocking behaviour
