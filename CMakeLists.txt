@@ -45,6 +45,10 @@ else()
 	target_link_libraries( ${PROJECT_NAME} ${LibNM_LIBRARIES})
 	target_include_directories( ${PROJECT_NAME} PUBLIC ${LibNM_INCLUDE_DIRS})
 	target_compile_options( ${PROJECT_NAME} PUBLIC ${LibNM_CFLAGS_OTHER})
+	# Avoid "undefined reference to `pthread_create'" when using std::thread
+	if( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
+		target_link_libraries( ${PROJECT_NAME} "pthread" )
+	endif()
 
 	install( TARGETS ${PROJECT_NAME} DESTINATION lib )
 	install( DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" DESTINATION include )

@@ -2,6 +2,7 @@
 #define INCLUDEGUARD_libnm_Client_h
 
 #include <vector>
+#include "libnm/MainLoop.h"
 //
 // Forward declarations
 //
@@ -44,6 +45,7 @@ namespace libnm
 		libnm::ActiveConnection activateConnection( libnm::Connection& connection, libnm::AccessPoint& accessPoint );
 	private:
 		NMClient* pClient_;
+		std::shared_ptr<libnm::MainLoop> pMainLoop_;
 	};
 
 } // end of namespace libnm

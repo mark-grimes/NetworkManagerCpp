@@ -1,6 +1,8 @@
 #include "libnm/Client.h"
 #include <stdexcept>
+#include <condition_variable>
 #include <NetworkManager.h>
+#include "libnm/MainLoop.h"
 #include "libnm/RemoteConnection.h"
 #include "libnm/ActiveConnection.h"
 #include "libnm/AccessPoint.h"
@@ -12,6 +14,8 @@ namespace // Unnamed namespace for things only used in this file
 	struct CallbackContext
 	{
 		bool hasCompleted=false;
+		std::mutex hasCompletedMutex;
+		std::condition_variable hasCompletedCondition;
 		T_ReturnType result;
 		GError* pError=nullptr;
 		T_ReturnType (*pFinishFunction)( NMClient* pClient, GAsyncResult* pResult, GError** pError );
@@ -24,14 +28,21 @@ namespace // Unnamed namespace for things only used in this file
 	void CallbackContext<T_ReturnType>::callback( GObject* pSourceObject, GAsyncResult* pResult, void* pUserData )
 	{
 		::CallbackContext<T_ReturnType>& callbackContext=*reinterpret_cast<::CallbackContext<T_ReturnType>*>(pUserData);
-		callbackContext.hasCompleted=true;
 		callbackContext.result=(*callbackContext.pFinishFunction)( NM_CLIENT(pSourceObject), pResult, &callbackContext.pError );
+		{
+			std::lock_guard<std::mutex> lock(callbackContext.hasCompletedMutex);
+			callbackContext.hasCompleted=true;
+		}
+		callbackContext.hasCompletedCondition.notify_all();
 	}
 
 } // end of the unnamed namespace
 
 libnm::Client::Client()
 {
+	// Start the event loop running
+	pMainLoop_.reset( new libnm::MainLoop() );
+
 	GError* pError=nullptr;
 	pClient_=nm_client_new( NULL, &pError );
 	if( pClient_==nullptr ) throw std::runtime_error(std::string("Unable to initialise NMClient:")+pError->message);
@@ -46,18 +57,21 @@ libnm::Client::Client( const libnm::Client& other )
 {
 	pClient_=other.pClient_;
 	if( pClient_ ) g_object_ref(pClient_);
+	pMainLoop_=other.pMainLoop_;
 }
 
 libnm::Client::Client( libnm::Client&& other )
 {
 	pClient_=other.pClient_;
 	other.pClient_=nullptr;
+	pMainLoop_=std::move(other.pMainLoop_);
 }
 
 libnm::Client& libnm::Client::operator=( const libnm::Client& other )
 {
 	pClient_=other.pClient_;
 	if( pClient_ ) g_object_ref(pClient_);
+	pMainLoop_=other.pMainLoop_;
 	return *this;
 }
 
@@ -65,6 +79,7 @@ libnm::Client& libnm::Client::operator=( libnm::Client&& other )
 {
 	pClient_=other.pClient_;
 	other.pClient_=nullptr;
+	pMainLoop_=std::move(other.pMainLoop_);
 	return *this;
 }
 
@@ -107,9 +122,10 @@ std::vector<libnm::Device> libnm::Client::getDevices() const
 libnm::RemoteConnection libnm::Client::addConnection( libnm::Connection& connection )
 {
 	::CallbackContext<NMRemoteConnection*> callbackContext( &nm_client_add_connection_finish ); // wait for callback to complete so okay to use the stack
+	std::unique_lock<std::mutex> lock(callbackContext.hasCompletedMutex);
 	nm_client_add_connection_async( pClient_, connection.native_handle(), false, nullptr, &::CallbackContext<NMRemoteConnection*>::callback, &callbackContext );
 	// I haven't implemented a way to handle asynchronous methods yet, so just wait on the result here.
-	while( !callbackContext.hasCompleted ) g_main_context_iteration( nullptr, true );
+	callbackContext.hasCompletedCondition.wait( lock, [&callbackContext]{ return callbackContext.hasCompleted; } );
 
 	if( callbackContext.pError ) throw std::runtime_error( callbackContext.pError->message );
 	else return libnm::RemoteConnection( callbackContext.result, true );
@@ -118,9 +134,10 @@ libnm::RemoteConnection libnm::Client::addConnection( libnm::Connection& connect
 libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& connection )
 {
 	::CallbackContext<NMActiveConnection*> callbackContext( &nm_client_activate_connection_finish ); // wait for callback to complete so okay to use the stack
+	std::unique_lock<std::mutex> lock(callbackContext.hasCompletedMutex);
 	nm_client_activate_connection_async( pClient_, connection.native_handle(), nullptr, nullptr, nullptr, &::CallbackContext<NMActiveConnection*>::callback, &callbackContext );
 	// I haven't implemented a way to handle asynchronous methods yet, so just wait on the result here.
-	while( !callbackContext.hasCompleted ) g_main_context_iteration( nullptr, true );
+	callbackContext.hasCompletedCondition.wait( lock, [&callbackContext]{ return callbackContext.hasCompleted; } );
 
 	if( callbackContext.pError ) throw std::runtime_error( callbackContext.pError->message );
 	else return libnm::ActiveConnection( callbackContext.result, true );
@@ -129,9 +146,10 @@ libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& co
 libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& connection, libnm::AccessPoint& accessPoint )
 {
 	::CallbackContext<NMActiveConnection*> callbackContext( &nm_client_activate_connection_finish ); // wait for callback to complete so okay to use the stack
+	std::unique_lock<std::mutex> lock(callbackContext.hasCompletedMutex);
 	nm_client_activate_connection_async( pClient_, connection.native_handle(), nullptr, nm_object_get_path(reinterpret_cast<NMObject*>(accessPoint.native_handle())), nullptr, &::CallbackContext<NMActiveConnection*>::callback, &callbackContext );
 	// I haven't implemented a way to handle asynchronous methods yet, so just wait on the result here.
-	while( !callbackContext.hasCompleted ) g_main_context_iteration( nullptr, true );
+	callbackContext.hasCompletedCondition.wait( lock, [&callbackContext]{ return callbackContext.hasCompleted; } );
 
 	if( callbackContext.pError ) throw std::runtime_error( callbackContext.pError->message );
 	else return libnm::ActiveConnection( callbackContext.result, true );
