@@ -3,6 +3,7 @@
 #include <NetworkManager.h>
 #include "libnm/RemoteConnection.h"
 #include "libnm/ActiveConnection.h"
+#include "libnm/AccessPoint.h"
 #include "libnm/Device.h"
 
 namespace // Unnamed namespace for things only used in this file
@@ -118,6 +119,17 @@ libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& co
 {
 	::CallbackContext<NMActiveConnection*> callbackContext( &nm_client_activate_connection_finish ); // wait for callback to complete so okay to use the stack
 	nm_client_activate_connection_async( pClient_, connection.native_handle(), nullptr, nullptr, nullptr, &::CallbackContext<NMActiveConnection*>::callback, &callbackContext );
+	// I haven't implemented a way to handle asynchronous methods yet, so just wait on the result here.
+	while( !callbackContext.hasCompleted ) g_main_context_iteration( nullptr, true );
+
+	if( callbackContext.pError ) throw std::runtime_error( callbackContext.pError->message );
+	else return libnm::ActiveConnection( callbackContext.result, true );
+}
+
+libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& connection, libnm::AccessPoint& accessPoint )
+{
+	::CallbackContext<NMActiveConnection*> callbackContext( &nm_client_activate_connection_finish ); // wait for callback to complete so okay to use the stack
+	nm_client_activate_connection_async( pClient_, connection.native_handle(), nullptr, nm_object_get_path(reinterpret_cast<NMObject*>(accessPoint.native_handle())), nullptr, &::CallbackContext<NMActiveConnection*>::callback, &callbackContext );
 	// I haven't implemented a way to handle asynchronous methods yet, so just wait on the result here.
 	while( !callbackContext.hasCompleted ) g_main_context_iteration( nullptr, true );
 

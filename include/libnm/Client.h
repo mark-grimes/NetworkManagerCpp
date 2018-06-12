@@ -14,6 +14,7 @@ namespace libnm
 	class Connection;
 	class RemoteConnection;
 	class ActiveConnection;
+	class AccessPoint;
 }
 
 namespace libnm
@@ -40,6 +41,7 @@ namespace libnm
 		std::vector<libnm::Device> getDevices() const;
 		libnm::RemoteConnection addConnection( libnm::Connection& connection );
 		libnm::ActiveConnection activateConnection( libnm::Connection& connection );
+		libnm::ActiveConnection activateConnection( libnm::Connection& connection, libnm::AccessPoint& accessPoint );
 	private:
 		NMClient* pClient_;
 	};

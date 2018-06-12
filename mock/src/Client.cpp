@@ -38,6 +38,11 @@ libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& co
 	throw std::logic_error("libnm::Client::activateConnection() has not been implemented for the mock classes");
 }
 
+libnm::ActiveConnection libnm::Client::activateConnection( libnm::Connection& connection, libnm::AccessPoint& accessPoint )
+{
+	throw std::logic_error("libnm::Client::activateConnection() has not been implemented for the mock classes");
+}
+
 void libnm::Client::mock_addDevice( libnm::Device::DeviceType type, const std::string& interface, const std::string& driver )
 {
 	devices_.push_back( libnm::Device(type,interface,driver) );

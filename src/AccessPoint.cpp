@@ -39,6 +39,16 @@ libnm::AccessPoint::~AccessPoint()
 	if( pAccessPoint_ ) g_object_unref(pAccessPoint_);
 }
 
+NMAccessPoint* libnm::AccessPoint::native_handle()
+{
+	return pAccessPoint_;
+}
+
+const NMAccessPoint* libnm::AccessPoint::native_handle() const
+{
+	return pAccessPoint_;
+}
+
 unsigned libnm::AccessPoint::getFlags() const
 {
 	return nm_access_point_get_flags( pAccessPoint_ );

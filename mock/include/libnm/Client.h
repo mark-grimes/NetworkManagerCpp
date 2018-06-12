@@ -12,6 +12,7 @@ namespace libnm
 	class Connection;
 	class RemoteConnection;
 	class ActiveConnection;
+	class AccessPoint;
 }
 #include "libnm/Device.h" // Only required for the mock class because I refer to libnm::Device::DeviceType
 
@@ -39,6 +40,7 @@ namespace libnm
 		std::vector<libnm::Device> getDevices() const;
 		libnm::RemoteConnection addConnection( libnm::Connection& connection );
 		libnm::ActiveConnection activateConnection( libnm::Connection& connection );
+		libnm::ActiveConnection activateConnection( libnm::Connection& connection, libnm::AccessPoint& accessPoint );
 	public:
 		// Extra methods to set up mocking behaviour
 		void mock_addDevice( libnm::Device::DeviceType type, const std::string& interface, const std::string& driver );

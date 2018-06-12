@@ -31,6 +31,9 @@ namespace libnm
 		libnm::AccessPoint& operator=( libnm::AccessPoint&& other );
 		virtual ~AccessPoint();
 
+		NMAccessPoint* native_handle();
+		const NMAccessPoint* native_handle() const;
+
 		unsigned getFlags() const;
 		unsigned getWPAFlags() const;
 		unsigned getRSNFlags() const;
