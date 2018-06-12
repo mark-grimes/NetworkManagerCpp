@@ -9,6 +9,7 @@ namespace libnm
 {
 	class Client;
 	class DeviceWifi;
+	class ActiveConnection;
 }
 
 namespace libnm
@@ -40,10 +41,15 @@ namespace libnm
 
 		const char* getIface() const;
 		const char* getDriver() const;
+		const char* getIPIface() const;
+		libnm::ActiveConnection getActiveConnection();
 	protected:
 		Device( libnm::Device::DeviceType type, const std::string& interface, const std::string& driver );
 		explicit Device( std::shared_ptr<libnm::detail::DevicePrivateMembers> pData );
 		std::shared_ptr<libnm::detail::DevicePrivateMembers> pData_;
+	public:
+		// Extra methods to set the mocking behaviour
+		void mock_setIPIface( const std::string& address );
 	};
 
 } // end of namespace libnm

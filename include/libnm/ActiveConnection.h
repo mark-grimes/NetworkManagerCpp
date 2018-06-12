@@ -9,6 +9,7 @@ typedef struct _NMActiveConnection NMActiveConnection;
 namespace libnm
 {
 	class Client;
+	class Device;
 }
 
 namespace libnm
@@ -21,6 +22,7 @@ namespace libnm
 	class ActiveConnection
 	{
 		friend class libnm::Client;
+		friend class libnm::Device;
 	public:
 		ActiveConnection( const libnm::ActiveConnection& other );
 		ActiveConnection( libnm::ActiveConnection&& other );

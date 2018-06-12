@@ -1,4 +1,5 @@
 #include "libnm/ActiveConnection.h"
+#include <stdexcept>
 #include "libnm/Setting.h"
 #include <NetworkManager.h>
 
@@ -51,10 +52,12 @@ const NMActiveConnection* libnm::ActiveConnection::native_handle() const
 
 const char* libnm::ActiveConnection::getUuid() const
 {
+	if( !pActiveConnection_ ) throw std::runtime_error("libnm::ActiveConnection::getUuid() called on invalid ActiveConnection");
 	return nm_active_connection_get_uuid(pActiveConnection_);
 }
 
 const char* libnm::ActiveConnection::getId() const
 {
+	if( !pActiveConnection_ ) throw std::runtime_error("libnm::ActiveConnection::getId() called on invalid ActiveConnection");
 	return nm_active_connection_get_id(pActiveConnection_);
 }

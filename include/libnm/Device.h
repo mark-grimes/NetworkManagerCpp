@@ -10,6 +10,7 @@ namespace libnm
 {
 	class Client;
 	class DeviceWifi;
+	class ActiveConnection;
 }
 
 namespace libnm
@@ -35,6 +36,8 @@ namespace libnm
 
 		const char* getIface() const;
 		const char* getDriver() const;
+		const char* getIPIface() const;
+		libnm::ActiveConnection getActiveConnection();
 	protected:
 		Device( NMDevice* pDevice );
 		NMDevice* pDevice_;

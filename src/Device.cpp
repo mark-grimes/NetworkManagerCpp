@@ -1,6 +1,7 @@
 #include "libnm/Device.h"
 #include <stdexcept>
 #include "libnm/DeviceWifi.h"
+#include "libnm/ActiveConnection.h"
 #include <NetworkManager.h>
 
 libnm::Device::Device( NMDevice* pDevice )
@@ -78,4 +79,14 @@ const char* libnm::Device::getIface() const
 const char* libnm::Device::getDriver() const
 {
 	return nm_device_get_driver(pDevice_);
+}
+
+const char* libnm::Device::getIPIface() const
+{
+	return nm_device_get_ip_iface(pDevice_);
+}
+
+libnm::ActiveConnection libnm::Device::getActiveConnection()
+{
+	return nm_device_get_active_connection(pDevice_);
 }

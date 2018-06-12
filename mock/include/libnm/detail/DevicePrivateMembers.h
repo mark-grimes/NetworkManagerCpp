@@ -19,6 +19,7 @@ namespace libnm
 			libnm::Device::DeviceType type_;
 			std::string interface_;
 			std::string driver_;
+			std::string ipAddress_;
 			std::vector<libnm::AccessPoint> accessPoints_;
 		};
 	} // end of namespace detail
