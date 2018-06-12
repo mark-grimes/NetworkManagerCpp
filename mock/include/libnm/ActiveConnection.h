@@ -1,6 +1,11 @@
 #ifndef INCLUDEGUARD_libnm_ActiveConnection_h
 #define INCLUDEGUARD_libnm_ActiveConnection_h
 
+//
+// Forward declarations
+//
+struct _NMActiveConnection;
+typedef struct _NMActiveConnection NMActiveConnection;
 
 namespace libnm
 {
@@ -11,7 +16,12 @@ namespace libnm
 	 */
 	class ActiveConnection
 	{
-		// Currently no functionality
+	public:
+		NMActiveConnection* native_handle();
+		const NMActiveConnection* native_handle() const;
+
+		const char* getUuid() const;
+		const char* getId() const;
 	};
 
 } // end of namespace libnm
